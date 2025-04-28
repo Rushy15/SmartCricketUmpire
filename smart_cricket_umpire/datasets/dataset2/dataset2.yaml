@@ -1,0 +1,25 @@
+#==========================================================================================================#
+#                                  File for configuring the training parameters                            |
+#----------------------------------------------------------------------------------------------------------#                                           
+# path -> This is the path to your exported, annotated photos
+# train -> This refers to the images used to train the model
+# val -> This refers to the images that will be validated with the values from the annotated photos
+# |-> Refer to "split_yolo_dataset.py" to see the split ratio (# of training : # of validation)
+
+# names -> This refers to the different labels used within the annotated photos
+# |-> Refer to "notes.json" in the folder of the dataset being used to see the labels and corresponding ID
+#==========================================================================================================#
+
+path: dataset2 # Searches for "../datasets/[DATASET_NAME]"
+train: images/train
+val: images/val
+
+names:
+  0: ball
+  1: bat
+  2: gloves
+  3: pads
+  4: stumps
+  5: wide_line
+
+

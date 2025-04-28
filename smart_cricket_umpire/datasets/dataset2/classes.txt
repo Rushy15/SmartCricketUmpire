@@ -1,0 +1,6 @@
+ball
+bat
+gloves
+pads
+stumps
+wide_line
