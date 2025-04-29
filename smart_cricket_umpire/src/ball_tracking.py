@@ -3,7 +3,7 @@ from collections import deque
 import cv2
 
 class BallTracker:
-    def __init__(self, deviation_threshold=30):
+    def __init__(self, deviation_threshold=70):
         self.ball_positions = deque(maxlen=30)
         self.tracking_active = True
         self.impact_point = None
@@ -22,7 +22,7 @@ class BallTracker:
             else:
                 self.ball_positions.append(ball_box)
         print("Ball Box is: ", ball_box) # De-bugging
-
+    
     def draw_path(self, frame):
         for i in range(1, len(self.ball_positions)):
             cv2.line(frame, self.ball_positions[i - 1], self.ball_positions[i], (255, 0, 0), 2)
