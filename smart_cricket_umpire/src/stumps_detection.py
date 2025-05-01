@@ -11,8 +11,6 @@ def expand_stump_box(box, img_width, img_height, expand_left=True):
     width = x2 - x1
     height = y2 - y1
 
-    # new_width = int(height / TARGET_RATIO)
-    # center_x = (x1 + x2) // 2
     center_y = (y1 + y2) // 2
 
     if expand_left:

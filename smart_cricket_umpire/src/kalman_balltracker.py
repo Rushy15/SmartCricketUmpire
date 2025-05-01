@@ -44,9 +44,6 @@ class BallKalmanTracker:
         
         if self.impact_point == None:
             self.path.append(centre)
-        
-            # x, y = self.last_prediction
-            # self.path.append((x, y))
 
             if len(self.path) >= 2:
                 delta_x = abs(self.path[-1][0] - self.path[-2][0]) # calculating the difference in x-drection between the two most recent entries in ball trajectories
@@ -55,8 +52,7 @@ class BallKalmanTracker:
 
     def predict_without_detection(self):
         self.predict()
-        # x, y = self.last_prediction
-        # self.path.append((x, y))
+
         if self.impact_point == None:
             self.path.append(self.last_prediction)
 

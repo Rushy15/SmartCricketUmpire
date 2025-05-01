@@ -29,17 +29,6 @@ while vid.isOpened():
     ret, frame = vid.read()
     if not ret:
         break
-    
-    # # Preprocessing: Convert to grayscale, apply Gaussian blur
-    # gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    # blurred_frame = cv2.GaussianBlur(gray_frame, (5, 5), 0)
-
-    # # Edge detection (optional)
-    # edges = cv2.Canny(blurred_frame, 50, 150)
-
-    # Get predictions from the model
-    # resized_frame = cv2.resize(blurred_frame, (640, 480))
-    # frame_rgb = cv2.cvtColor(resized_frame, cv2.COLOR_BGR2RGB)
 
     dimmed_frame = cv2.convertScaleAbs(frame, alpha=0.8, beta=0)
     results = model(dimmed_frame, conf=IDENTIFICATION_CONFIDENCE)
@@ -50,9 +39,6 @@ while vid.isOpened():
 
     # Detect and update stumps bounding box
     CURRENT_STUMPS_BBOX = detect_and_update_stumps(detections, CURRENT_STUMPS_BBOX, frame.shape)
-    # if CURRENT_STUMPS_BBOX:
-    #     CURRENT_STUMPS_BBOX = refine_stumps_with_edges(frame, CURRENT_STUMPS_BBOX)
-    # print(f"Detected Stumps: {CURRENT_STUMPS_BBOX}")
 
     bat_box = None
     pad_box = None
@@ -72,11 +58,6 @@ while vid.isOpened():
             bat_box = (x1, y1, x2, y2)
         elif class_id == 3:  # Pads
             pad_box = (x1, y1, x2, y2)
-        
-    # if not ball_detected:
-    #     ball_tracker.predict_without_detection()
-    
-    # results = model(frame)[0]
 
     # Draw ball path and mark impact point
     ball_tracker.draw_path(frame)
