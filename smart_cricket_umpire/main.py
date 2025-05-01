@@ -10,7 +10,7 @@ MODEL_NAME = "model2_best.pt"
 INPUT_VIDEO_NAME = "lbw_test.mp4"
 OUTPUT_VIDEO_NAME = "lbw_test_result.mp4"
 
-IDENTIFICATION_CONFIDENCE = 0.25
+IDENTIFICATION_CONFIDENCE = 0.3
 #===================================================================================#
 # Initialize the ball tracker and the model
 ball_tracker = BallKalmanTracker()
