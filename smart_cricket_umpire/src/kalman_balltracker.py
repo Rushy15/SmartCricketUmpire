@@ -69,7 +69,7 @@ class BallKalmanTracker:
         if self.impact_point:
             x, y = self.impact_point
             font = cv2.FONT_HERSHEY_COMPLEX
-            cv2.putText(frame, '*', (x - 10, y + 10), font, 2, (0, 0 , 255), 3)
+            cv2.putText(frame, '*', (x - 15, y + 15), font, 2, (0, 0 , 255), 3)
     
     def get_impact_point(self):
         return self.impact_point

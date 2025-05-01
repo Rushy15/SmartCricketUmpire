@@ -2,16 +2,17 @@
 import cv2
 from src.ball_tracking import BallTracker
 from src.kalman_balltracker import BallKalmanTracker
-from src.stumps_detection import detect_and_update_stumps
+from src.stumps_detection import detect_and_update_stumps, refine_stumps_with_edges
 from src.utils import check_lbw
 from ultralytics import YOLO
 #=========================== SECTION TO CHANGE =====================================#
 MODEL_NAME = "model2_best.pt"
 INPUT_VIDEO_NAME = "lbw_test.mp4"
-OUTPUT_VIDEO_NAME = "working2.mp4"
+OUTPUT_VIDEO_NAME = "lbw_test_result.mp4"
+
+IDENTIFICATION_CONFIDENCE = 0.25
 #===================================================================================#
 # Initialize the ball tracker and the model
-# ball_tracker = BallTracker()
 ball_tracker = BallKalmanTracker()
 MODEL_PATH = "models/" + str(MODEL_NAME) 
 VIDEO_PATH = "input/testing_videos/" + str(INPUT_VIDEO_NAME)
@@ -36,17 +37,21 @@ while vid.isOpened():
     # # Edge detection (optional)
     # edges = cv2.Canny(blurred_frame, 50, 150)
 
-    # # Get predictions from the model
-    # resized_frame = cv2.resize(frame, (640, 480))
-    # frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-    results = model(frame, conf=0.4)
+    # Get predictions from the model
+    # resized_frame = cv2.resize(blurred_frame, (640, 480))
+    # frame_rgb = cv2.cvtColor(resized_frame, cv2.COLOR_BGR2RGB)
+
+    dimmed_frame = cv2.convertScaleAbs(frame, alpha=0.8, beta=0)
+    results = model(dimmed_frame, conf=IDENTIFICATION_CONFIDENCE)
 
     detections = results[0].boxes if results[0].boxes is not None else []
 
     frame = results[0].plot()
 
     # Detect and update stumps bounding box
-    CURRENT_STUMPS_BBOX = detect_and_update_stumps(detections, CURRENT_STUMPS_BBOX)
+    CURRENT_STUMPS_BBOX = detect_and_update_stumps(detections, CURRENT_STUMPS_BBOX, frame.shape)
+    # if CURRENT_STUMPS_BBOX:
+    #     CURRENT_STUMPS_BBOX = refine_stumps_with_edges(frame, CURRENT_STUMPS_BBOX)
     # print(f"Detected Stumps: {CURRENT_STUMPS_BBOX}")
 
     bat_box = None
